@@ -6,7 +6,7 @@
         <p class="card-title fs-5">{{ project.title }}</p>
         <button type="button" class="btn btn-danger">Open Gallery</button>
       </div>
-      <RouterLink to="Profile">
+      <RouterLink :to="{ name: 'Profile', params: { profileId: project.creatorId } }">
         <img :title="`Go to ${project.creator.name}'s Profile Page!`" class="profile-img" :src="project.creator.picture"
           :alt="project.creator.name">
       </RouterLink>
