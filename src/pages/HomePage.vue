@@ -6,7 +6,15 @@
       </div>
     </section>
     <section class="row">
-      {{ projects }}
+      <div v-for="project in projects" :key="project.id" class="col-12 col-md-3">
+        <div class="card">
+          <img :src="project.coverImg" class="card-img-top" :alt="project.title">
+          <div class="card-body">
+            <p class="card-title fs-5">{{ project.title }}</p>
+            <button type="button" class="btn btn-danger">Open Gallery</button>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>
