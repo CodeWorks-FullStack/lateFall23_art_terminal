@@ -6,10 +6,11 @@
         <p class="card-title fs-5">{{ project.title }}</p>
         <button type="button" class="btn btn-danger">Open Gallery</button>
       </div>
-      <RouterLink :to="{ name: 'Profile', params: { profileId: project.creatorId } }">
+      <!-- NOTE if your route has a parameter in the router, you must supply a value for that parameter when creating a RouterLink -->
+      <router-link :to="{ name: 'Profile', params: { profileId: project.creatorId } }">
         <img :title="`Go to ${project.creator.name}'s Profile Page!`" class="profile-img" :src="project.creator.picture"
           :alt="project.creator.name">
-      </RouterLink>
+      </router-link>
     </div>
   </div>
 </template>

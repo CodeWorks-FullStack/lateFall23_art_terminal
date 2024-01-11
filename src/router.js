@@ -17,6 +17,7 @@ const routes = [
     component: loadPage('AboutPage')
   },
   {
+    // NOTE /:profileId signifies that we will store a value in the parameters of this route
     path: "/profile/:profileId",
     name: "Profile",
     component: loadPage("ProfilePage"),
