@@ -59,9 +59,12 @@ export default {
     //   editable.value = { ...AppState.account } //NOTE break reference to object stored in AppState
     // })
 
-    watch(account, () => {
-      editable.value = { ...AppState.account } //NOTE break reference to object stored in AppState
-    })
+    watch(
+      account, () => {
+        editable.value = { ...AppState.account } //NOTE break reference to object stored in AppState
+      },
+      { immediate: true }
+    )
 
     return {
       editable,
@@ -70,6 +73,7 @@ export default {
         try {
           const accountData = editable.value
           await accountService.updateAccount(accountData)
+          Pop.success('Updated account!')
         } catch (error) {
           Pop.error(error)
         }

@@ -35,7 +35,7 @@
 
 
 <script>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
@@ -48,6 +48,8 @@ export default {
   setup() {
     // NOTE useRoute allows us to see information about the route, and allows us to pull out parameters from the route
     const route = useRoute();
+    const watchableProfileId = computed(() => route.params.profileId)
+
     async function getProfileById() {
       try {
         // NOTE pulls out the profile id being stored in our URL
@@ -67,12 +69,22 @@ export default {
         Pop.error(error);
       }
     }
-    onMounted(() => {
-      logger.log(route);
+
+    // onMounted(() => {
+    //   logger.log(route);
+    //   projectsService.clearAppState()
+    //   getProfileById();
+    //   getProjectsByProfileId();
+    // });
+
+    watch(watchableProfileId, () => {
+
       projectsService.clearAppState()
       getProfileById();
       getProjectsByProfileId();
-    });
+    },
+      { immediate: true })
+
     return {
       profile: computed(() => AppState.activeProfile),
       projects: computed(() => AppState.profileProjects)
