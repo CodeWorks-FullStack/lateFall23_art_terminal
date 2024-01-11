@@ -48,6 +48,8 @@ export default {
   setup() {
     // NOTE useRoute allows us to see information about the route, and allows us to pull out parameters from the route
     const route = useRoute();
+
+    // NOTE creating a computed here so our watch function can watch this property
     const watchableProfileId = computed(() => route.params.profileId)
 
     async function getProfileById() {
@@ -70,6 +72,7 @@ export default {
       }
     }
 
+    // NOTE no longer using onMounted because we are using watch instead
     // onMounted(() => {
     //   logger.log(route);
     //   projectsService.clearAppState()
@@ -77,13 +80,28 @@ export default {
     //   getProjectsByProfileId();
     // });
 
-    watch(watchableProfileId, () => {
+    // NOTE watch will watch a piece of data, and run a callback function whenever that data changes
+    // NOTE works similar to AppState.on('cats', _doSomething) || watch(()=> cats, _doSomething)
+    // NOTE if we don't watch our route parameter, we won't get new data from API when our ID changes
+    watch(
+      // NOTE what I am watching. Must be a computed or getter 
+      // getter example: watch(() => route.params.profileId, ()=>{})
+      watchableProfileId,
 
-      projectsService.clearAppState()
-      getProfileById();
-      getProjectsByProfileId();
-    },
-      { immediate: true })
+      // NOTE what I do when watched property changes
+      () => {
+
+        logger.log(route);
+        projectsService.clearAppState()
+        getProfileById();
+        getProjectsByProfileId();
+      },
+
+      // NOTE should I run my callback function on page load (works similar to onMounted)
+      { immediate: true }
+    )
+
+
 
     return {
       profile: computed(() => AppState.activeProfile),

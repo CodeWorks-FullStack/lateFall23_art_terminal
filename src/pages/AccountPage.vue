@@ -53,15 +53,16 @@ import { accountService } from '../services/AccountService.js';
 export default {
   setup() {
     const editable = ref({})
+
+    // NOTE we compute the account in our setup function and return it out so we can watch the account
     const account = computed(() => AppState.account)
 
-    // watch(() => AppState.account, () => {
-    //   editable.value = { ...AppState.account } //NOTE break reference to object stored in AppState
-    // })
-
     watch(
-      account, () => {
-        editable.value = { ...AppState.account } //NOTE break reference to object stored in AppState
+      account,
+      () => {
+        // NOTE break reference to object stored in AppState
+        // NOTE "..." is spread operator https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax 
+        editable.value = { ...AppState.account }
       },
       { immediate: true }
     )
